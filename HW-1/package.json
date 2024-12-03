@@ -1,0 +1,15 @@
+{
+  "name": "hw-1",
+  "version": "1.0.0",
+  "description": "HW 1 node js",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "hw",
+    "node"
+  ],
+  "author": "liza",
+  "license": "ISC"
+}

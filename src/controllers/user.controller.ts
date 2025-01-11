@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 
+import { IUser } from "../interfaces/IUser";
 import { userService } from "../services/user.service";
 
 class UserController {
@@ -14,7 +15,7 @@ class UserController {
 
   public async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const dto = req.body as any;
+      const dto = req.body as IUser;
       const result = await userService.create(dto);
       res.status(201).json(result);
     } catch (error: any) {
@@ -34,7 +35,7 @@ class UserController {
 
   public async change(req: Request, res: Response, next: NextFunction) {
     try {
-      const dto = req.body as any;
+      const dto = req.body as IUser;
       const userId = req.params.userId as string;
       const user = await userService.change(dto, userId);
       res.status(201).json(user);
@@ -45,9 +46,9 @@ class UserController {
 
   public async remove(req: Request, res: Response, next: NextFunction) {
     try {
-      const dto = req.body as any;
+      const dto = req.body as { id: number };
       await userService.remove(dto);
-      res.status(201).json("delete!");
+      res.sendStatus(201);
     } catch (e: any) {
       next(e);
     }

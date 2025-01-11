@@ -1,25 +1,27 @@
 import { ApiError } from "../errors/api-errors";
+import { IUser, IUserDto } from "../interfaces/IUser";
 import { userRepository } from "../repositories/user.repository";
 
 class UserService {
-  public async getList(): Promise<any[]> {
+  public async getList(): Promise<IUser[]> {
     return await userRepository.getList();
   }
-  public async create(dto: Partial<any>): Promise<any> {
+
+  public async create(dto: IUserDto): Promise<IUser[]> {
     return await userRepository.create(dto);
   }
-  public async getUser(userId: Partial<string>): Promise<any> {
-    const user = await userRepository.getUser(userId);
+
+  public async getUser(userId: string): Promise<IUser> {
+    const user: IUser | undefined = await userRepository.getUser(userId);
+
     if (!user) {
       throw new ApiError("User not found", 404);
     }
+
     return user;
   }
 
-  public async change(
-    dto: Partial<any>,
-    userId: Partial<string>,
-  ): Promise<any> {
+  public async change(dto: IUserDto, userId: string): Promise<IUser> {
     if (!dto.name || dto.name.length < 3) {
       throw new ApiError(
         "Name is required and should be minimum 3 symbols",
@@ -36,15 +38,17 @@ class UserService {
       );
     }
 
-    const user = await userRepository.change(dto, userId);
+    const user: IUser = await userRepository.change(dto, userId);
+
     if (!user) {
       throw new ApiError("User not found", 404);
     }
+
     return user;
   }
 
-  public async remove(dto: Partial<any>): Promise<void> {
-    await userRepository.remove(dto);
+  public async remove(userId: string): Promise<void> {
+    await userRepository.remove(userId);
   }
 }
 
